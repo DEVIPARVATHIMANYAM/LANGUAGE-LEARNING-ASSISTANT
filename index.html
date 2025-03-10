@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <title>Language Learning Assistant</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Language Learning Assistant!</h1>
+        <form action="{{ url_for('process_word') }}" method="post" id="wordForm">
+            <label for="word">Enter a word to learn:</label>
+            <input type="text" id="word" name="word" required>
+            <button type="submit">Submit</button>
+        </form>
+        <button id="micButton">🎤 Speak</button>
+
+        {% if word %}
+            <h2>Word: {{ word }}</h2>
+
+            {% if definitions %}
+                <h3>Definitions:</h3>
+                <ul>
+                    {% for definition in definitions %}
+                        <li>{{ definition }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if examples %}
+                <h3>Examples:</h3>
+                <ul>
+                    {% for example in examples %}
+                        <li>{{ example }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if synonyms %}
+                <p><strong>Synonyms:</strong> {{ synonyms|join(', ') }}</p>
+            {% endif %}
+
+            {% if antonyms %}
+                <p><strong>Antonyms:</strong> {{ antonyms|join(', ') }}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <script>
+        // Ensure Speech Recognition and Speech Synthesis are supported
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (SpeechRecognition) {
+            const micButton = document.getElementById('micButton');
+            const wordInput = document.getElementById('word');
+            const wordForm = document.getElementById('wordForm');
+            const recognition = new SpeechRecognition();
+
+            // Start recognition when the microphone button is clicked
+            micButton.addEventListener('click', () => {
+                recognition.start();
+            });
+
+            // Set the recognized word to the input field
+            recognition.onresult = (event) => {
+                const spokenWord = event.results[0][0].transcript;
+                wordInput.value = spokenWord;
+                wordForm.submit(); // Automatically submit the form
+            };
+        } else {
+            alert("Speech recognition is not supported in this browser.");
+        }
+
+        // Text-to-Speech for Results
+        const synth = window.speechSynthesis;
+
+        {% if word %}
+            if (synth) {
+                const message = `
+                    The word is {{ word }}.
+                    {% if definitions %}Definitions are: {% for definition in definitions %} {{ definition }}.{% endfor %}{% endif %}
+                    {% if synonyms %}Synonyms are: {{ synonyms|join(', ') }}.{% endif %}
+                    {% if antonyms %}Antonyms are: {{ antonyms|join(', ') }}.{% endif %}
+                `;
+                const utterance = new SpeechSynthesisUtterance(message);
+                synth.speak(utterance);
+            } else {
+                console.error("Speech synthesis is not supported in this browser.");
+            }
+        {% endif %}
+    </script>
+</body>
+</html>

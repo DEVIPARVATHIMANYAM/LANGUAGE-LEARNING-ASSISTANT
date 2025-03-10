@@ -1,0 +1,84 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0b0e0d; 
+    background-image: url('ir.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #000; /* Set text color to black */
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+}
+
+h1, label, h2, h3, p, li {
+    color: #000; /* Set text color to black */
+    font-weight: bold; /* Set text to bold */
+}
+
+form {
+    margin-top: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #000; /* Set border color to black */
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: #000; /* Set text color to black */
+    font-weight: bold; /* Set text to bold */
+}
+
+button {
+    padding: 10px;
+    background-color: #000; /* Set button background color to black */
+    color: #fff; /* Set button text color to white */
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold; /* Set text to bold */
+}
+
+button:hover {
+    background-color: #090808;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+button#micButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button#micButton:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    .container {
+        margin: 20px auto;
+        padding: 10px;
+    }
+}
